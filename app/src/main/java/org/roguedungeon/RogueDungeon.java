@@ -7,7 +7,6 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
-import java.util.Objects;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -24,12 +23,7 @@ public class RogueDungeon {
 
         init();
         loop();
-
-        glfwFreeCallbacks(window);
-        glfwDestroyWindow(window);
-
-        glfwTerminate();
-        Objects.requireNonNull(glfwSetErrorCallback(null)).free();
+        deinit();
     }
 
     private void init() {
@@ -92,6 +86,17 @@ public class RogueDungeon {
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
+        }
+    }
+
+    private void deinit() {
+        glfwFreeCallbacks(window);
+        glfwDestroyWindow(window);
+
+        glfwTerminate();
+        GLFWErrorCallback callback = glfwSetErrorCallback(null);
+        if (callback != null) {
+            callback.free();
         }
     }
 
