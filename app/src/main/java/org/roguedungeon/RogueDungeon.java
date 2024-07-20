@@ -5,8 +5,10 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
+import org.roguedungeon.models.Model;
 import org.roguedungeon.render.Shader;
 
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -14,6 +16,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
+
 
 public class RogueDungeon {
 
@@ -74,26 +77,36 @@ public class RogueDungeon {
     private void loop() {
         GL.createCapabilities();
 
+        Shader shader = null;
         try {
-            Shader shader = new Shader("shaders/vert.shader", "shaders/frag.shader");
+            shader = new Shader("shaders/vert.shader", "shaders/frag.shader");
             shader.createShader();
         } catch (Exception e) {
             e.printStackTrace();
             return;
         }
 
-        // Set the clear color
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+        float[] vertices = new float[]{
+            0.0f,  0.5f, 0.0f,
+            -0.5f, -0.5f, 0.0f,
+            0.5f, -0.5f, 0.0f
+        };
 
-        // Run the rendering loop until the user has attempted to close
-        // the window or has pressed the ESCAPE key.
+        FloatBuffer verticiesBuffer = memAllocFloat(vertices.length);
+        verticiesBuffer.put(vertices).flip();
+
+        Model model = new Model(verticiesBuffer);
+        memFree(verticiesBuffer);
+
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
         while ( !glfwWindowShouldClose(window) ) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
+            model.render(shader);
+
             glfwSwapBuffers(window); // swap the color buffers
 
-            // Poll for window events. The key callback above will only be
-            // invoked during this call.
             glfwPollEvents();
         }
     }
