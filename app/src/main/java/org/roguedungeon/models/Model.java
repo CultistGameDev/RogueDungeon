@@ -8,13 +8,12 @@ import static org.lwjgl.opengl.GL30.*;
 
 public class Model {
     private final int vao;
-    private final int vbo;
 
     public Model(FloatBuffer buffer) {
         vao = glGenVertexArrays();
         glBindVertexArray(vao);
 
-        vbo = glGenBuffers();
+        final int vbo = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
 
