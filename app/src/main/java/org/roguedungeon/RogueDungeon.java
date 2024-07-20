@@ -1,25 +1,16 @@
 package org.roguedungeon;
 
 import imgui.ImGui;
-import imgui.app.Application;
-import imgui.gl3.ImGuiImplGl3;
-import imgui.glfw.ImGuiImplGlfw;
-import org.lwjgl.Version;
-import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWVidMode;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.system.MemoryStack;
+import imgui.flag.ImGuiWindowFlags;
 import org.roguedungeon.models.Model;
 import org.roguedungeon.render.Shader;
 import org.roguedungeon.render.Window;
 
 import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 
-import static org.lwjgl.glfw.Callbacks.*;
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowSize;
+import static org.lwjgl.system.MemoryUtil.memAllocFloat;
+import static org.lwjgl.system.MemoryUtil.memFree;
 
 
 public class RogueDungeon extends Window {
@@ -27,12 +18,20 @@ public class RogueDungeon extends Window {
     private Shader shader;
     private boolean isSetup = false;
 
+    private GameOptions options;
+
     public String getVersion() {
         return "1.0.SNAPSHOT";
     }
 
     protected RogueDungeon() {
+        super.init();
         init();
+    }
+
+    protected void init() {
+        options = GameOptions.defaultOptions();
+        glfwSetWindowSize(getWindowPtr(), options.getWindowWidth(), options.getWindowHeight());
     }
 
     public static void main(String[] args) {
@@ -72,11 +71,14 @@ public class RogueDungeon extends Window {
 
     @Override
     protected void process() {
+        if (ImGui.begin("Demo", ImGuiWindowFlags.AlwaysAutoResize)) {
+            ImGui.text("Hello World!");
+        }
+        ImGui.end();
         model.render(shader);
     }
 
     @Override
     protected void postProcess() {
-
     }
 }

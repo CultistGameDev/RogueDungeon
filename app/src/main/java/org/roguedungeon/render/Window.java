@@ -96,6 +96,11 @@ public abstract class Window {
             }
         });
 
+        glfwSetWindowSizeCallback(window, (window, width, height) -> {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glViewport(0, 0, width, height);
+        });
+
         glfwShowWindow(window);
 
         GL.createCapabilities();
