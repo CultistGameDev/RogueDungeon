@@ -3,6 +3,7 @@ import groovy.xml.dom.DOMCategory.attributes
 val lwjglVersion = "3.3.4"
 val steamworks4jVersion = "1.9.0"
 val jomlVersion = "1.10.7"
+val imguiJavaVersion = "1.86.11"
 
 val lwjglNatives = Pair(
         System.getProperty("os.name")!!,
@@ -64,6 +65,7 @@ dependencies {
     runtimeOnly("org.lwjgl", "lwjgl-stb", classifier = lwjglNatives)
     implementation("com.code-disaster.steamworks4j", "steamworks4j", steamworks4jVersion)
     implementation("org.joml", "joml", jomlVersion)
+    implementation("io.github.spair:imgui-java-app:${imguiJavaVersion}")
 }
 
 testing {
