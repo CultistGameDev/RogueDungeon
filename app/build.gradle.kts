@@ -1,4 +1,4 @@
-import org.gradle.internal.os.OperatingSystem
+import groovy.xml.dom.DOMCategory.attributes
 
 val lwjglVersion = "3.3.4"
 val steamworks4jVersion = "1.9.0"

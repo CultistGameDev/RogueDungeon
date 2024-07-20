@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
+import org.roguedungeon.render.Shader;
 
 import java.nio.IntBuffer;
 
@@ -72,6 +73,14 @@ public class RogueDungeon {
 
     private void loop() {
         GL.createCapabilities();
+
+        try {
+            Shader shader = new Shader("shaders/vert.shader", "shaders/frag.shader");
+            shader.createShader();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
 
         // Set the clear color
         glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
