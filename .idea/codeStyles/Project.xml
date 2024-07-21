@@ -1,0 +1,21 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <JavaCodeStyleSettings>
+      <option name="PACKAGES_TO_USE_IMPORT_ON_DEMAND">
+        <value>
+          <package name="static org.lwjgl.glfw.GLFW" withSubpackages="true" static="true" />
+          <package name="org.lwjgl.opengl.GL30" withSubpackages="true" static="true" />
+          <package name="org.lwjgl.system.MemoryStack" withSubpackages="true" static="true" />
+          <package name="org.lwjgl.system.MemoryUtil" withSubpackages="true" static="true" />
+        </value>
+      </option>
+    </JavaCodeStyleSettings>
+    <codeStyleSettings language="Glsl">
+      <option name="SPACE_BEFORE_COLON" value="false" />
+    </codeStyleSettings>
+    <codeStyleSettings language="JAVA">
+      <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="0" />
+      <option name="BLANK_LINES_AROUND_METHOD" value="0" />
+    </codeStyleSettings>
+  </code_scheme>
+</component>
