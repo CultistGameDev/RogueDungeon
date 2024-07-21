@@ -1,5 +1,4 @@
-import groovy.xml.dom.DOMCategory.attributes
-
+val gameClass = "org.roguedungeon.RogueDungeon"
 val lwjglVersion = "3.3.4"
 val steamworks4jVersion = "1.9.0"
 val jomlVersion = "1.10.7"
@@ -78,10 +77,18 @@ testing {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(18)
     }
 }
 
 application {
-    mainClass = "org.roguedungeon.RogueDungeon"
+    mainClass = gameClass
+}
+
+tasks.jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes("Main-Class" to gameClass)
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
 }
