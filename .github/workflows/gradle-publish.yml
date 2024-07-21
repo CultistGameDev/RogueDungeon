@@ -18,8 +18,10 @@ jobs:
       uses: gradle/actions/setup-gradle@v3
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Publish to GitHub Packages
-      run: ./gradlew publish
+    - name: Publish to GitHub
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          app/build/lib/RougeDungeon.jar
       env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

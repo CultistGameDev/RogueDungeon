@@ -86,26 +86,6 @@ application {
     mainClass = gameClass
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/RobertGameDev/RogueDungeon")
-            credentials {
-                username = System.getenv("USERNAME")
-                password = System.getenv("TOKEN")
-            }
-        }
-    }
-    publications {
-        register<MavenPublication>("gpr") {
-            from(components["java"])
-            groupId = "RogueDungeon"
-            artifactId = "Rogue-Dungeon"
-        }
-    }
-}
-
 tasks.jar {
     archiveBaseName.set("Rogue-Dungeon")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
