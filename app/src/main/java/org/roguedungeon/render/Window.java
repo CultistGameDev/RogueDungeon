@@ -14,9 +14,9 @@ import java.nio.IntBuffer;
 import java.util.Objects;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
-import static org.lwjgl.opengl.GL30.*;
 
 
 public abstract class Window {
@@ -39,7 +39,9 @@ public abstract class Window {
     }
 
     protected abstract void preProcess();
+
     protected abstract void process();
+
     protected abstract void postProcess();
 
     protected void initWindow() {
@@ -74,6 +76,29 @@ public abstract class Window {
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
 
+        centerWindow();
+
+        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
+            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
+                glfwSetWindowShouldClose(window, true);
+            }
+        });
+
+        glfwSetWindowSizeCallback(window, (window, width, height) -> {
+            centerWindow();
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glViewport(0, 0, width, height);
+        });
+
+        glfwShowWindow(window);
+
+        GL.createCapabilities();
+
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    protected void centerWindow() {
         try (MemoryStack stack = stackPush()) {
             IntBuffer pWidth = stack.mallocInt(1);
             IntBuffer pHeight = stack.mallocInt(1);
@@ -89,24 +114,6 @@ public abstract class Window {
                 );
             }
         }
-
-        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {
-                glfwSetWindowShouldClose(window, true);
-            }
-        });
-
-        glfwSetWindowSizeCallback(window, (window, width, height) -> {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            glViewport(0, 0, width, height);
-        });
-
-        glfwShowWindow(window);
-
-        GL.createCapabilities();
-
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     protected void initImGui() {
@@ -114,7 +121,7 @@ public abstract class Window {
     }
 
     protected void run() {
-        while(!glfwWindowShouldClose(window)) {
+        while (!glfwWindowShouldClose(window)) {
             runFrame();
         }
     }
