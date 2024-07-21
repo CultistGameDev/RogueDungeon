@@ -5,8 +5,8 @@ val jomlVersion = "1.10.7"
 val imguiJavaVersion = "1.86.11"
 
 val lwjglNatives = Pair(
-        System.getProperty("os.name")!!,
-        System.getProperty("os.arch")!!
+    System.getProperty("os.name")!!,
+    System.getProperty("os.arch")!!
 ).let { (name, arch) ->
     when {
         arrayOf("Linux", "SunOS", "Unit").any { name.startsWith(it) } ->
@@ -18,12 +18,14 @@ val lwjglNatives = Pair(
                 "natives-linux-riscv64"
             else
                 "natives-linux"
-        arrayOf("Windows").any { name.startsWith(it) }                ->
+
+        arrayOf("Windows").any { name.startsWith(it) } ->
             if (arch.contains("64"))
                 "natives-windows${if (arch.startsWith("aarch64")) "-arm64" else ""}"
             else
                 "natives-windows-x86"
-        else                                                                            ->
+
+        else ->
             throw Error("Unrecognized or unsupported platform. Please set \"lwjglNatives\" manually")
     }
 }
