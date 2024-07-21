@@ -7,11 +7,6 @@ import org.roguedungeon.models.Model;
 import org.roguedungeon.render.Shader;
 import org.roguedungeon.render.Window;
 
-import java.nio.FloatBuffer;
-
-import static org.lwjgl.system.MemoryUtil.*;
-
-
 public class RogueDungeon extends Window {
     private Model model;
     private Shader shader;
@@ -26,10 +21,13 @@ public class RogueDungeon extends Window {
     protected RogueDungeon() {
         config = Configuration.config();
         init(config);
+        setupData();
     }
 
     public static void main(String[] args) {
-        new RogueDungeon().run();
+        RogueDungeon game = new RogueDungeon();
+        game.run();
+        game.dispose();
     }
 
     public void setupData() {
@@ -43,16 +41,15 @@ public class RogueDungeon extends Window {
             }
 
             float[] vertices = new float[]{
-                    0.0f, 0.5f, 0.0f,
+                    -0.5f, 0.5f, 0.0f,
                     -0.5f, -0.5f, 0.0f,
-                    0.5f, -0.5f, 0.0f
+                    0.5f, 0.5f, 0.0f,
+                    0.5f, 0.5f, 0.0f,
+                    -0.5f, -0.5f, 0.0f,
+                    0.5f, -0.5f, 0.0f,
             };
 
-            FloatBuffer verticiesBuffer = memAllocFloat(vertices.length);
-            verticiesBuffer.put(vertices).flip();
-
-            model = new Model(verticiesBuffer);
-            memFree(verticiesBuffer);
+            model = new Model(vertices);
 
             isSetup = true;
         }
@@ -60,7 +57,6 @@ public class RogueDungeon extends Window {
 
     @Override
     protected void preProcess() {
-        setupData();
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 import org.roguedungeon.config.Configuration;
+import org.roguedungeon.interfaces.Disposable;
 
 import java.nio.IntBuffer;
 import java.util.Objects;
@@ -19,7 +20,7 @@ import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-public abstract class Window {
+public abstract class Window implements Disposable {
     private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
 
@@ -159,7 +160,7 @@ public abstract class Window {
         glfwPollEvents();
     }
 
-    protected void dispose() {
+    public void dispose() {
         imGuiGl3.dispose();
         imGuiGlfw.dispose();
         ImGui.destroyContext();
