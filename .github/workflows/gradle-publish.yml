@@ -22,6 +22,6 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          app/build/lib/RougeDungeon.jar
+          app/build/libs/RougeDungeon.jar
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
