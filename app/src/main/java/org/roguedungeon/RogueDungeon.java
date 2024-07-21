@@ -8,9 +8,8 @@ import org.roguedungeon.render.Window;
 
 import java.nio.FloatBuffer;
 
-import static org.lwjgl.glfw.GLFW.glfwSetWindowSize;
-import static org.lwjgl.system.MemoryUtil.memAllocFloat;
-import static org.lwjgl.system.MemoryUtil.memFree;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.system.MemoryUtil.*;
 
 
 public class RogueDungeon extends Window {
@@ -31,6 +30,7 @@ public class RogueDungeon extends Window {
 
     protected void init() {
         options = GameOptions.defaultOptions();
+        glfwSetWindowTitle(getWindowPtr(), "Rogue Dungeon");
         glfwSetWindowSize(getWindowPtr(), options.getWindowWidth(), options.getWindowHeight());
     }
 

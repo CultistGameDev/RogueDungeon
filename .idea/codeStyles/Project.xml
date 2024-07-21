@@ -3,7 +3,7 @@
     <JavaCodeStyleSettings>
       <option name="PACKAGES_TO_USE_IMPORT_ON_DEMAND">
         <value>
-          <package name="static org.lwjgl.glfw.GLFW" withSubpackages="true" static="true" />
+          <package name="org.lwjgl.glfw.GLFW" withSubpackages="true" static="true" />
           <package name="org.lwjgl.opengl.GL30" withSubpackages="true" static="true" />
           <package name="org.lwjgl.system.MemoryStack" withSubpackages="true" static="true" />
           <package name="org.lwjgl.system.MemoryUtil" withSubpackages="true" static="true" />
