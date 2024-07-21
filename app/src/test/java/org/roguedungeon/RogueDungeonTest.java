@@ -4,11 +4,12 @@
 package org.roguedungeon;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class RogueDungeonTest {
-    @Test public void gameHasVersion() {
-        RogueDungeon classUnderTest = new RogueDungeon();
-        assertEquals("Version is not correct", "1.0.SNAPSHOT", classUnderTest.getVersion());
+    @Test
+    public void gameHasVersion() {
+        assertEquals("Version is not correct", "1.0.SNAPSHOT", RogueDungeon.getVersion());
     }
 }

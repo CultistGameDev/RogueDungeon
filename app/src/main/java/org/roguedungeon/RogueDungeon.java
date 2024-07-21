@@ -19,7 +19,7 @@ public class RogueDungeon extends Window {
 
     private GameOptions options;
 
-    public String getVersion() {
+    public static String getVersion() {
         return "1.0.SNAPSHOT";
     }
 
