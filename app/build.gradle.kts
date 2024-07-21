@@ -86,6 +86,7 @@ application {
 }
 
 tasks.jar {
+    archiveFileName.set("Rogue-Dungeon.jar")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes("Main-Class" to gameClass)
