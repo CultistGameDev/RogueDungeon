@@ -1,3 +1,3 @@
 # Rogue Dungeon
 
-FPS Roguelike Dungeon Delver
+FPS Roguelike Dungeon Delver written in Java with LWJGL3
