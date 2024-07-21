@@ -2,8 +2,10 @@ package org.roguedungeon;
 
 import imgui.ImGui;
 import imgui.flag.ImGuiWindowFlags;
+import org.joml.Vector3f;
 import org.roguedungeon.config.Configuration;
 import org.roguedungeon.models.Model;
+import org.roguedungeon.render.Camera;
 import org.roguedungeon.render.Shader;
 import org.roguedungeon.render.Window;
 
@@ -11,6 +13,7 @@ public class RogueDungeon extends Window {
     private Model model;
     private Shader shader;
     private boolean isSetup = false;
+    private Camera camera;
 
     private Configuration config;
 
@@ -35,6 +38,9 @@ public class RogueDungeon extends Window {
             try {
                 shader = new Shader("shaders/vert.shader", "shaders/frag.shader");
                 shader.createShader();
+                shader.createUniform("model");
+                shader.createUniform("view");
+                shader.createUniform("proj");
             } catch (Exception e) {
                 System.err.println(e.getLocalizedMessage());
                 return;
@@ -51,6 +57,8 @@ public class RogueDungeon extends Window {
 
             model = new Model(vertices);
 
+            camera = new Camera(config.windowWidth(), config.windowHeight(), new Vector3f(0.0f, 0.0f, -1.0f));
+
             isSetup = true;
         }
     }
@@ -65,7 +73,7 @@ public class RogueDungeon extends Window {
             ImGui.text("Hello World!");
         }
         ImGui.end();
-        model.render(shader);
+        model.render(shader, camera);
     }
 
     @Override

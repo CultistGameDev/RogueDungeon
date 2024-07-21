@@ -1,7 +1,9 @@
 package org.roguedungeon.models;
 
 
+import org.joml.Matrix4f;
 import org.roguedungeon.interfaces.Disposable;
+import org.roguedungeon.render.Camera;
 import org.roguedungeon.render.Shader;
 
 import java.nio.FloatBuffer;
@@ -38,6 +40,10 @@ public class Model implements Disposable {
         }
     }
 
+    public Matrix4f modelMatrix() {
+        return new Matrix4f();
+    }
+
     private void enable() {
         glBindVertexArray(vao);
         glEnableVertexAttribArray(0);
@@ -48,8 +54,11 @@ public class Model implements Disposable {
         glBindVertexArray(0);
     }
 
-    public void render(Shader shader) {
+    public void render(Shader shader, Camera camera) {
         shader.bind();
+        shader.setUniform("model", modelMatrix());
+        shader.setUniform("proj", camera.getProjection());
+        shader.setUniform("view", camera.getView());
         enable();
         glDrawArrays(GL_TRIANGLES, 0, vertexCount);
         disable();

@@ -1,7 +1,12 @@
 package org.roguedungeon.render;
 
+import org.joml.Matrix4f;
+import org.lwjgl.system.MemoryStack;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.FloatBuffer;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import static org.lwjgl.opengl.GL30.*;
@@ -11,6 +16,8 @@ public class Shader {
     private int vertShaderId;
     private int fragShaderId;
 
+    private final HashMap<String, Integer> uniforms;
+
     private final String vertShaderFilename;
     private final String fragShaderFilename;
 
@@ -19,8 +26,25 @@ public class Shader {
         if (programId == 0) {
             throw new Exception("Could not create Shader");
         }
+        uniforms = new HashMap<>();
         this.vertShaderFilename = vertShaderFilename;
         this.fragShaderFilename = fragShaderFilename;
+    }
+
+    public void createUniform(String name) throws Exception {
+        int loc = glGetUniformLocation(programId, name);
+        if (loc < 0) {
+            throw new Exception("Could not find uniform: " + name);
+        }
+        uniforms.put(name, loc);
+    }
+
+    public void setUniform(String name, Matrix4f matrix) {
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            FloatBuffer fb = stack.mallocFloat(16);
+            matrix.get(fb);
+            glUniformMatrix4fv(uniforms.get(name), false, fb);
+        }
     }
 
     public void bind() {
