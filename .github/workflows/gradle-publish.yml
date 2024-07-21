@@ -23,5 +23,3 @@ jobs:
       with:
         files: |
           app/build/libs/Rogue-Dungeon.jar
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
