@@ -2,13 +2,13 @@ package org.roguedungeon;
 
 import imgui.ImGui;
 import imgui.flag.ImGuiWindowFlags;
+import org.roguedungeon.config.Configuration;
 import org.roguedungeon.models.Model;
 import org.roguedungeon.render.Shader;
 import org.roguedungeon.render.Window;
 
 import java.nio.FloatBuffer;
 
-import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 
@@ -17,21 +17,15 @@ public class RogueDungeon extends Window {
     private Shader shader;
     private boolean isSetup = false;
 
-    private GameOptions options;
+    private Configuration config;
 
     public static String getVersion() {
         return "1.0.SNAPSHOT";
     }
 
     protected RogueDungeon() {
-        super.init();
-        init();
-    }
-
-    protected void init() {
-        options = GameOptions.defaultOptions();
-        glfwSetWindowTitle(getWindowPtr(), "Rogue Dungeon");
-        glfwSetWindowSize(getWindowPtr(), options.getWindowWidth(), options.getWindowHeight());
+        config = Configuration.config();
+        init(config);
     }
 
     public static void main(String[] args) {

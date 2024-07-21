@@ -4,20 +4,20 @@ import imgui.ImGui;
 import imgui.flag.ImGuiConfigFlags;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
-import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
+import org.roguedungeon.config.Configuration;
 
 import java.nio.IntBuffer;
 import java.util.Objects;
 
+import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
-
 
 public abstract class Window {
     private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
@@ -31,9 +31,9 @@ public abstract class Window {
         return window;
     }
 
-    protected void init() {
-        initWindow();
-        initImGui();
+    protected void init(Configuration config) {
+        initWindow(config);
+        initImGui(config);
         imGuiGlfw.init(window, true);
         imGuiGl3.init(glslVersion);
     }
@@ -44,7 +44,7 @@ public abstract class Window {
 
     protected abstract void postProcess();
 
-    protected void initWindow() {
+    protected void initWindow(Configuration config) {
         GLFWErrorCallback.createPrint(System.err).set();
 
         if (!glfwInit()) {
@@ -68,7 +68,7 @@ public abstract class Window {
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
         }
 
-        window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL);
+        window = glfwCreateWindow(config.windowWidth(), config.windowHeight(), config.windowTitle(), NULL, NULL);
         if (window == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
@@ -119,7 +119,7 @@ public abstract class Window {
         }
     }
 
-    protected void initImGui() {
+    protected void initImGui(Configuration config) {
         ImGui.createContext();
     }
 
@@ -163,7 +163,7 @@ public abstract class Window {
         imGuiGl3.dispose();
         imGuiGlfw.dispose();
         ImGui.destroyContext();
-        Callbacks.glfwFreeCallbacks(window);
+        glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
         Objects.requireNonNull(glfwSetErrorCallback(null)).free();
     }
