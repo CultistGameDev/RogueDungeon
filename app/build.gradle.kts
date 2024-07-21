@@ -1,3 +1,4 @@
+val gameVersion = "0.0.1"
 val gameClass = "org.roguedungeon.RogueDungeon"
 val lwjglVersion = "3.3.4"
 val steamworks4jVersion = "1.9.0"
@@ -92,7 +93,9 @@ tasks.jar {
     archiveBaseName.set("Rogue-Dungeon")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
-        attributes("Main-Class" to gameClass)
+        attributes("Main-Class" to gameClass,
+            "Implementation-Title" to "RogueDungeon",
+            "Implementation-Version" to gameVersion)
     }
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
 }

@@ -9,6 +9,12 @@ import org.roguedungeon.render.Camera;
 import org.roguedungeon.render.Shader;
 import org.roguedungeon.render.Window;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+
 public class RogueDungeon extends Window {
     private Model model;
     private Shader shader;
@@ -17,18 +23,45 @@ public class RogueDungeon extends Window {
 
     private Configuration config;
 
+    private static String version = null;
+
     public static String getVersion() {
-        return "1.0.SNAPSHOT";
+        return version;
     }
 
     protected RogueDungeon() {
+        detectVersion();
         config = Configuration.config();
         init(config);
         setupData();
     }
 
+    private void detectVersion() {
+        try {
+            Enumeration<URL> resources = getClass().getClassLoader().getResources("META-INF/MANIFEST.MF");
+            while (resources.hasMoreElements()) {
+                try {
+                    Manifest manifest = new Manifest(resources.nextElement().openStream());
+                    Attributes attributes = manifest.getMainAttributes();
+                    String title = attributes.getValue("Implementation-Title");
+                    if (title != null && title.equals("RogueDungeon")) {
+                        version = manifest.getMainAttributes().getValue("Implementation-Version");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (version == null) {
+            version = "<dev build>";
+        }
+    }
+
     public static void main(String[] args) {
         RogueDungeon game = new RogueDungeon();
+        System.out.println("Rogue Dungeon: " + RogueDungeon.getVersion());
         game.run();
         game.dispose();
     }
