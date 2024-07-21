@@ -23,3 +23,6 @@ jobs:
       with:
         files: |
           app/build/libs/Rogue-Dungeon.jar
+    permissions:
+      contents: write
+      packages: write
