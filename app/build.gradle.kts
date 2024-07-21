@@ -100,6 +100,7 @@ publishing {
     publications {
         register<MavenPublication>("gpr") {
             from(components["java"])
+            groupId = "RogueDungeon"
             artifactId = "Rogue-Dungeon"
         }
     }
