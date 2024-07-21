@@ -44,7 +44,7 @@ public class RogueDungeon extends Window {
                 shader = new Shader("shaders/vert.shader", "shaders/frag.shader");
                 shader.createShader();
             } catch (Exception e) {
-                e.printStackTrace();
+                System.err.println(e.getLocalizedMessage());
                 return;
             }
 
