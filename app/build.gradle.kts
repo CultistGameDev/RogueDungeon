@@ -69,6 +69,8 @@ dependencies {
     implementation("com.code-disaster.steamworks4j", "steamworks4j", steamworks4jVersion)
     implementation("org.joml", "joml", jomlVersion)
     implementation("io.github.spair:imgui-java-app:${imguiJavaVersion}")
+    implementation("org.tinylog:tinylog-api:2.7.0")
+    implementation("org.tinylog:tinylog-impl:2.7.0")
 }
 
 testing {
@@ -93,9 +95,11 @@ tasks.jar {
     archiveBaseName.set("Rogue-Dungeon")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
-        attributes("Main-Class" to gameClass,
+        attributes(
+            "Main-Class" to gameClass,
             "Implementation-Title" to "RogueDungeon",
-            "Implementation-Version" to gameVersion)
+            "Implementation-Version" to gameVersion
+        )
     }
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
 }

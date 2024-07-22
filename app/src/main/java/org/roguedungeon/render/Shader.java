@@ -2,6 +2,7 @@ package org.roguedungeon.render;
 
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
+import org.tinylog.Logger;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -67,16 +68,16 @@ public class Shader {
         try {
             vertShader = compileShader(vertShaderFilename, GL_VERTEX_SHADER);
         } catch (Exception e) {
-            System.err.println("Could not create vert shader " + vertShaderFilename);
-            e.printStackTrace();
+            Logger.error("Could not create shader {}", vertShaderFilename);
+            Logger.error(e.getStackTrace());
         }
 
         int fragShader = 0;
         try {
             fragShader = compileShader(fragShaderFilename, GL_FRAGMENT_SHADER);
         } catch (Exception e) {
-            System.err.println("Could not create frag shader " + fragShaderFilename);
-            e.printStackTrace();
+            Logger.error("Could not create shader {}", fragShaderFilename);
+            Logger.error(e.getStackTrace());
         }
 
         glAttachShader(programId, vertShader);
@@ -96,7 +97,8 @@ public class Shader {
 
         glValidateProgram(programId);
         if (glGetProgrami(programId, GL_VALIDATE_STATUS) == 0) {
-            System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(programId, 1024));
+            Logger.error("Warning validating Shader code: {}", glGetProgramInfoLog(programId, 1024));
+            throw new Exception("Error validating Shader code: " + glGetProgramInfoLog(programId, 1024));
         }
     }
 

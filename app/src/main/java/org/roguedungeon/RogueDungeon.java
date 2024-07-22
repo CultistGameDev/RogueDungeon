@@ -8,6 +8,7 @@ import org.roguedungeon.models.Model;
 import org.roguedungeon.render.Camera;
 import org.roguedungeon.render.Shader;
 import org.roguedungeon.render.Window;
+import org.tinylog.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -61,7 +62,7 @@ public class RogueDungeon extends Window {
 
     public static void main(String[] args) {
         RogueDungeon game = new RogueDungeon();
-        System.out.println("Rogue Dungeon: " + RogueDungeon.getVersion());
+        Logger.info("Rogue Dungeon: v{}", RogueDungeon.getVersion());
         game.run();
         game.dispose();
     }
